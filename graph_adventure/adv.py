@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from world import World
+from util import Queue, Stack
 
 import random
 
@@ -21,7 +22,11 @@ player = Player("Name", world.startingRoom)
 
 
 # FILL THIS IN
-traversalPath = ['n', 's']
+# Track these paths
+traversalPath = []
+roomPath = {}
+reversedPath = []
+direction_inverse = {'n':'s', 's':'n', 'e':'w', 'w':'e'} # to reverse directions
 
 
 # TRAVERSAL TEST
