@@ -28,6 +28,18 @@ roomPath = {}
 reversedPath = []
 direction_inverse = {'n':'s', 's':'n', 'e':'w', 'w':'e'} # to reverse directions
 
+# Add starting room with its exits to "roomPath" 
+roomPath[player.currentRoom.id] = player.currentRoom.getExits()
+
+# Start tracking rooms visited _____
+# If current room is not in "roomPath"
+if player.currentRoom.id not in roomPath:
+# Use room id (as key) and pass its exits as values to "roomPath"
+    roomPath[player.currentRoom.id] = player.currentRoom.getExits()
+# Direction we just explored - To Be Removed from "roomPath"!
+    last_room_direction = reversedPath[-1] 
+# Remove direction/exit where we came from (since we explored it)
+    roomPath[player.currentRoom.id].remove(last_room_direction)
 
 # TRAVERSAL TEST
 visited_rooms = set()
