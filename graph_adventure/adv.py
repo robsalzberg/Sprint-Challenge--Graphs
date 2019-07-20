@@ -31,27 +31,38 @@ direction_inverse = {'n':'s', 's':'n', 'e':'w', 'w':'e'} # to reverse directions
 # Add starting room with its exits to "roomPath" 
 roomPath[player.currentRoom.id] = player.currentRoom.getExits()
 
+# Looping while number of rooms visited is less than number of rooms in graph
+while len(roomPath) < len(roomGraph)-1:
+
 # Start tracking rooms visited
 # If current room is not in "roomPath"
-if player.currentRoom.id not in roomPath:
+    if player.currentRoom.id not in roomPath:
 # Use room id (as key) and pass its exits as values to "roomPath"
-    roomPath[player.currentRoom.id] = player.currentRoom.getExits()
+        roomPath[player.currentRoom.id] = player.currentRoom.getExits()
 # Direction we just explored - To Be Removed from "roomPath"!
-    last_room_direction = reversedPath[-1] 
+        last_room_direction = reversedPath[-1] 
 # Remove direction/exit where we came from (since we explored it)
-    roomPath[player.currentRoom.id].remove(last_room_direction)
+        roomPath[player.currentRoom.id].remove(last_room_direction)
 
 # Travel through rooms with no unexplored exits
 # Loop until you land on room with exits
-while len(roomPath[player.currentRoom.id]) == 0: 
+    while len(roomPath[player.currentRoom.id]) == 0: 
 # We want to reverse: Get & Remove last reversed direction from "reversedPath"
-    reverse_direction = reversedPath.pop()
+        reverse_direction = reversedPath.pop()
 # Add "reverse_direction" to "traversalPath" to track traveled path
-    traversalPath.append(reverse_direction)
+        traversalPath.append(reverse_direction)
 # Travel to reverse direction
-    player.travel(reverse_direction)
+        player.travel(reverse_direction)
 
-
+# Travel through rooms with available exits
+# Travel to first available exit for current room
+    direction_move = roomPath[player.currentRoom.id].pop(0)
+# Update "traversalPath" 
+    traversalPath.append(direction_move)
+# Update "reversedPath"
+    reversedPath.append(direction_inverse[direction_move])
+# Move toward new exit
+    player.travel(direction_move)
 
 # TRAVERSAL TEST
 visited_rooms = set()
@@ -74,8 +85,8 @@ else:
 #######
 # player.currentRoom.printRoomDescription(player)
 # while True:
-#     cmds = input("-> ").lower().split(" ")
-#     if cmds[0] in ["n", "s", "e", "w"]:
-#         player.travel(cmds[0], True)
-#     else:
-#         print("I did not understand that command.")
+#    cmds = input("-> ").lower().split(" ")
+#    if cmds[0] in ["n", "s", "e", "w"]:
+#        player.travel(cmds[0], True)
+#    else:
+#        print("I did not understand that command.")
